@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:payflow/modules/login/login_page.dart';
+import 'package:payflow/shared/auth/auth_controller.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_images.dart';
 
@@ -11,21 +11,11 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-
-  void _splashTime() => Future.delayed(
-    new Duration(seconds: 5)
-  ).then((_) => Navigator.of(context).pushReplacement(
-    new MaterialPageRoute(builder: (_) => LoginPage())
-  ));
-
-  @override
-  void initState() {
-    _splashTime();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final authController = new AuthController();
+    authController.currentUser(context);
+
     return new Scaffold(
       backgroundColor: AppColors.background,
       body: new Stack(
