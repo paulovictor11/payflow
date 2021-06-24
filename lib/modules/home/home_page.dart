@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
               }
             ),
             new GestureDetector(
-              onTap: () {},
+              onTap: () => Navigator.of(context).pushNamed('/barcode'),
               child: new Container(
                 height: 56, width: 56,
                 decoration: new BoxDecoration(

@@ -39,22 +39,22 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             new Positioned(
-              bottom: 64, left: 0, right: 0,
+              bottom: 30, left: 0, right: 0,
               child: new Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(AppImages.logomini),
-                  new SizedBox(height: 30),
+                  // new SizedBox(height: 20),
                   new Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: new Text(
                       'Organize seus boletos em um só lugar',
                       textAlign: TextAlign.center,
                       style: AppTextStyles.titleHome,
                     ),
                   ),
-                  new SizedBox(height: 40),
+                  new SizedBox(height: 20),
                   new Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: new SocialLoginButton(
