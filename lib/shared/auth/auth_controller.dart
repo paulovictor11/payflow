@@ -12,7 +12,7 @@ class AuthController {
     if (user != null) {
       saveUser(user);
       _user = user;
-      Navigator.of(context).pushReplacementNamed('/home');
+      Navigator.of(context).pushReplacementNamed('/home', arguments: user);
       return;
     }
 

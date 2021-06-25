@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+
+import 'package:payflow/modules/extract/extract.dart';
+import 'package:payflow/modules/meus_boletos/meus_boletos.dart';
+import 'package:payflow/shared/models/user_model.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
 
 import 'home_controller.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({ Key? key }) : super(key: key);
+  final User user;
+
+  const HomePage({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -14,10 +23,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   final homeController = new HomeController();
-  final pages = [
-    new Container(color: Colors.red),
-    new Container(color: Colors.blue),
-  ];
   
   @override
   Widget build(BuildContext context) {
@@ -25,35 +30,46 @@ class _HomePageState extends State<HomePage> {
       appBar: new PreferredSize(
         preferredSize: Size.fromHeight(152),
         child: new Container(
-          height: 152,
+          height: 102,
           color: AppColors.primary,
-          child: new Center(
-            child: new ListTile(
-              title: new Text.rich(
-                new TextSpan(
-                  text: 'Olá, ',
-                  style: AppTextStyles.titleRegular,
-                  children: [
-                    new TextSpan(text: 'Paulo Victor', style: AppTextStyles.titleBoldBackground)
-                  ]
+          child: new Column(
+            children: [
+              new SizedBox(height: 30),
+              new Center(
+                child: new ListTile(
+                  title: new Text.rich(
+                    new TextSpan(
+                      text: 'Olá, ',
+                      style: AppTextStyles.titleRegular,
+                      children: [
+                        new TextSpan(text: widget.user.name, style: AppTextStyles.titleBoldBackground)
+                      ]
+                    ),
+                  ),
+                  subtitle: new Text(
+                    'Mantenha suas contas em dia',
+                    style: AppTextStyles.captionShape,
+                  ),
+                  trailing: new Container(
+                    height: 48, width: 48,
+                    decoration: new BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(5),
+                      image: new DecorationImage(
+                        image: new NetworkImage(widget.user.photoUrl!)
+                      )
+                    ),
+                  ),
                 ),
               ),
-              subtitle: new Text(
-                'Mantenha suas contas em dia',
-                style: AppTextStyles.captionShape,
-              ),
-              trailing: new Container(
-                height: 48, width: 48,
-                decoration: new BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(5)
-                ),
-              ),
-            ),
+            ],
           ),
         ),
       ),
-      body: pages[homeController.currentPage],
+      body: [
+        new MeusBoletosPage(key: new UniqueKey()),
+        new ExtractPage(key: new UniqueKey())
+      ][homeController.currentPage],
       bottomNavigationBar: new Container(
         height: 90,
         child: new Row(
@@ -62,7 +78,7 @@ class _HomePageState extends State<HomePage> {
             new IconButton(
               icon: new Icon(
                 Icons.home,
-                color: AppColors.primary,
+                color: homeController.currentPage == 0 ? AppColors.primary : AppColors.body,
               ),
               onPressed: () {
                 homeController.setPage(0);
@@ -70,7 +86,10 @@ class _HomePageState extends State<HomePage> {
               }
             ),
             new GestureDetector(
-              onTap: () => Navigator.of(context).pushNamed('/barcode'),
+              onTap: () async {
+                await Navigator.of(context).pushNamed('/barcode');
+                setState(() { });
+              },
               child: new Container(
                 height: 56, width: 56,
                 decoration: new BoxDecoration(
@@ -88,7 +107,7 @@ class _HomePageState extends State<HomePage> {
             new IconButton(
               icon: new Icon(
                 Icons.description_outlined,
-                color: AppColors.body,
+                color: homeController.currentPage == 1 ? AppColors.primary : AppColors.body,
               ),
               onPressed: () {
                 homeController.setPage(1);

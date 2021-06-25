@@ -11,6 +11,7 @@ class SetLabelButtons extends StatelessWidget {
   final String secondaryLabel;
   final VoidCallback secondaryOnTap;
   final bool enablePrimaryColor;
+  final bool enableSecondaryColor;
 
   const SetLabelButtons({
     Key? key,
@@ -18,30 +19,45 @@ class SetLabelButtons extends StatelessWidget {
     required this.primaryOnTap,
     required this.secondaryLabel,
     required this.secondaryOnTap,
-    this.enablePrimaryColor = false
+    this.enablePrimaryColor = false,
+    this.enableSecondaryColor = false
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return new Container(
-      color: AppColors.shape,
-      height: 56,
-      child: new Row(
+      color: AppColors.background,
+      height: 57,
+      child: new Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          new Expanded(
-            child: new LabelButton(
-              label: primaryLabel,
-              style: enablePrimaryColor ? AppTextStyles.buttonPrimary : null,
-              onTap: primaryOnTap,
+          new Divider(
+            thickness: 1,
+            height: 1,
+            color: AppColors.stroke,
+          ),
+          new Container(
+            height: 56,
+            child: new Row(
+              children: [
+                new Expanded(
+                  child: new LabelButton(
+                    label: primaryLabel,
+                    style: enablePrimaryColor ? AppTextStyles.buttonPrimary : null,
+                    onTap: primaryOnTap,
+                  ),
+                ),
+                new DividerVertical(),
+                new Expanded(
+                  child: new LabelButton(
+                    label: secondaryLabel,
+                    style: enableSecondaryColor ? AppTextStyles.buttonPrimary : null,
+                    onTap: secondaryOnTap,
+                  ),
+                )
+              ],
             ),
           ),
-          new DividerVertical(),
-          new Expanded(
-            child: new LabelButton(
-              label: secondaryLabel,
-              onTap: secondaryOnTap,
-            ),
-          )
         ],
       ),
     );
